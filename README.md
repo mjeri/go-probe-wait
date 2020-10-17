@@ -29,3 +29,9 @@ Only standard go going on here :)
 ```
 > ./go-wait-probe --endpoint https://my-service.com/ready --probeInterval 300ms --programTimeout 5s
 ```
+
+## Advantages over bash scripts
+
+While it may seem too much to use a binary for such an easy task, it also can help, as the go binary doesn't have any requirements on the actual environment it's run in.
+In other words no `curl` or `wget` or similar programs are required to issue HTTP requests and thus the solution is actually more light-weight.
+But you can do as you prefer of course :)
