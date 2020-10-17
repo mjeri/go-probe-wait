@@ -25,7 +25,7 @@ jobs:
     - name: Build
       run: go build -v .
       
-    - name: Go-linter
+    - name: Lint
       uses: Jerome1337/golint-action@v1.0.2
       with:
         golint-path: ./...
