@@ -4,6 +4,13 @@ go-probe-wait is a utility that probes and blocks an HTTP endpoint until it retu
 It's inspired by the famous wait-for-it.sh script, but works on HTTP endpoints.
 The meaning of the options are slightly different, however, more hopefully a bit more explanatory.
 
+## Installation
+
+Precompiled binaries for linux, macos and windows are available as releases.
+
+If you want to mess it with on your own, the `build-releases.sh` script is your friend to build the program on your own.
+Only standard go going on here :)
+
 ## Usage
 
 ```
