@@ -56,7 +56,8 @@ func runProbeLoop(endpoint string, probeInterval time.Duration, success chan<- b
 	ticker := time.NewTicker(probeInterval)
 	defer ticker.Stop()
 
-	// start one probe immediately and don't wait the probeInterval
+	// Start the first probe immediately.
+	// The ticker ticks the first time after the respective time.Duration, but we want to start probing immediately.
 	go runProbe(endpoint, success)
 
 	for range ticker.C {
