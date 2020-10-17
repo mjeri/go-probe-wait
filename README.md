@@ -1,5 +1,7 @@
 # go-probe-wait
 
+![Go](https://github.com/mjeri/go-probe-wait/workflows/Go/badge.svg)
+
 go-probe-wait is a utility which probes an HTTP endpoint until it returns a 2xx response code or a timeout is reached.
 It's inspired by the famous [wait-for-it.sh](https://github.com/vishnubob/wait-for-it) script, but works on HTTP endpoints.
 The meaning of the options are slightly different, however, hopefully a bit more explanatory.
