@@ -1,32 +1,26 @@
 package main
 
 import (
-	"flag"
 	"fmt"
 	"net/http"
 	"os"
 	"os/exec"
 	"syscall"
 	"time"
+
+	flag "github.com/spf13/pflag"
 )
 
 func main() {
 	var help, runCommandOnTimeout bool
 	var endpoint, probeIntervalString, programTimeoutString string
 
-	flag.BoolVar(&help, "help", false, "OPTIONAL - Show this online help.")
+	flag.BoolVarP(&help, "help", "h", false, "OPTIONAL - Show this online help.")
 
-	flag.StringVar(&endpoint, "endpoint", "", "REQUIRED - The endpoint to probe.")
-	flag.StringVar(&endpoint, "e", "", "(shorthand for -endpoint)")
-
-	flag.StringVar(&probeIntervalString, "probeInterval", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
-	flag.StringVar(&probeIntervalString, "i", "1s", "(shorthand for -probeInterval)")
-
-	flag.StringVar(&programTimeoutString, "programTimeout", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and the tool exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
-	flag.StringVar(&programTimeoutString, "t", "15s", "(shorthand for -programTimeout)")
-
-	flag.BoolVar(&runCommandOnTimeout, "runCommandOnTimeout", false, "OPTIONAL - Run the specified command also on a programTimeout.")
-	flag.BoolVar(&runCommandOnTimeout, "c", false, "(shorthand for -runCommandOnTimeout)")
+	flag.StringVarP(&endpoint, "endpoint", "e", "", "REQUIRED - The endpoint to probe.")
+	flag.StringVarP(&probeIntervalString, "probeInterval", "i", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.StringVarP(&programTimeoutString, "programTimeout", "t", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and it exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.BoolVarP(&runCommandOnTimeout, "runCommandOnTimeout", "c", false, "OPTIONAL - Run the specified command also on a programTimeout.")
 
 	flag.Parse()
 
@@ -77,17 +71,17 @@ func main() {
 
 func printHelp(errorMessage string) {
 	if len(errorMessage) > 0 {
-		fmt.Print("\n", errorMessage, "\n")
+		fmt.Print(errorMessage, "\n\n")
 	}
 
-	fmt.Print("\nUsage:   go-wait-probe [OPTION]... [CMD]...\n\n")
+	fmt.Print("Usage: go-wait-probe [OPTION]... [CMD]...\n\n")
 	fmt.Print("Examples:\n\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready echo 'ready to run anything :)'\n")
-	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready -- echo 'ready to run anything :)'\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready --programTimeout 2s --runCommandOnTimeout echo 'ready to run anything :)'\n")
+	fmt.Print("  go-wait-probe -e http://localhost:8080/ready -i 2s -t 10s -c echo 'ready to run anything :)'\n\n")
 
-	fmt.Print("Flags:\n\n")
+	fmt.Print("Options:\n\n")
 	flag.PrintDefaults()
 }
 
