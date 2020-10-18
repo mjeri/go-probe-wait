@@ -28,7 +28,7 @@ jobs:
     - name: Lint
       uses: Jerome1337/golint-action@v1.0.2
       with:
-        golint-path: ./...
+        golint-path: ./
 
     - name: Test
       run: go test -v .
