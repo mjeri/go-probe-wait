@@ -43,11 +43,12 @@ If you want to mess it with on your own, clone the project and a simple `go buil
 
 ## Further improvement ideas
 
-- run 
+- add shorthands for flags
+- add unit tests
 - support for TCP and UDP probes
 - support for probe timeouts
 - provide docker images
-- make HTTP status codes that are considered success configurable
+- make HTTP status codes that are considered successes configurable
 
 
 ## Advantages over bash scripts

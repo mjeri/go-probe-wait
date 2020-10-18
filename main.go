@@ -11,13 +11,14 @@ import (
 )
 
 func main() {
-	var help bool
+	var help, runCommandOnTimeout bool
 	var endpoint, probeIntervalString, programTimeoutString string
 
 	flag.BoolVar(&help, "help", false, "OPTIONAL - Show this online help.")
 	flag.StringVar(&endpoint, "endpoint", "", "REQUIRED - The endpoint to probe.")
 	flag.StringVar(&probeIntervalString, "probeInterval", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
 	flag.StringVar(&programTimeoutString, "programTimeout", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and the tool exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.BoolVar(&runCommandOnTimeout, "runCommandOnTimeout", false, "OPTIONAL - Run the specified command also on a programTimeout.")
 
 	flag.Parse()
 
@@ -57,8 +58,12 @@ func main() {
 			os.Exit(0)
 		}
 	case <-time.After(programTimeout):
-		fmt.Printf("Error: programTimeout of %s reached. Exiting with 1\n", programTimeout.String())
-		os.Exit(1)
+		if len(argsForCommandToExecute) > 0 && runCommandOnTimeout {
+			execSuccessCommand(argsForCommandToExecute)
+		} else {
+			fmt.Printf("Error: programTimeout of %s reached. Exiting with 1\n", programTimeout.String())
+			os.Exit(1)
+		}
 	}
 }
 
@@ -72,7 +77,7 @@ func printHelp(errorMessage string) {
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready echo 'ready to run anything :)'\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready -- echo 'ready to run anything :)'\n")
-	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready --probeInterval 2s --programTimeout 30s echo 'ready to run anything :)'\n\n")
+	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready --programTimeout 2s --runCommandOnTimeout echo 'ready to run anything :)'\n")
 
 	fmt.Print("Flags:\n\n")
 	flag.PrintDefaults()
