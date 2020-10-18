@@ -4,7 +4,7 @@ set -o errexit
 set -o pipefail
 set -o nounset
 
-readonly OS_LIST=("darwin" "linux" "windows")
+readonly OS_LIST=("darwin" "linux")
 readonly ARCH_LIST=("amd64")
 
 if [[ ! -d "./releases" ]]; then

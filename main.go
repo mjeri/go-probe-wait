@@ -5,20 +5,31 @@ import (
 	"fmt"
 	"net/http"
 	"os"
+	"os/exec"
+	"syscall"
 	"time"
 )
 
 func main() {
+	var help bool
 	var endpoint, probeIntervalString, programTimeoutString string
 
-	flag.StringVar(&endpoint, "endpoint", "", "The endpoint to probe.")
-	flag.StringVar(&probeIntervalString, "probeInterval", "1s", "The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
-	flag.StringVar(&programTimeoutString, "programTimeout", "15s", "Timeout after the program is considered unsuccessful and the tool exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.BoolVar(&help, "help", false, "OPTIONAL - Show this online help.")
+	flag.StringVar(&endpoint, "endpoint", "", "REQUIRED - The endpoint to probe.")
+	flag.StringVar(&probeIntervalString, "probeInterval", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.StringVar(&programTimeoutString, "programTimeout", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and the tool exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
 
 	flag.Parse()
 
+	if help {
+		printHelp("")
+		os.Exit(1)
+	}
+
+	argsForCommandToExecute := flag.Args()
+
 	if endpoint == "" {
-		printHelp("Error: missing --endpoint configuration.")
+		printHelp("Error: missing --endpoint configuration")
 		os.Exit(1)
 	}
 
@@ -40,15 +51,30 @@ func main() {
 
 	select {
 	case <-success:
-		os.Exit(0)
+		if len(argsForCommandToExecute) > 0 {
+			execSuccessCommand(argsForCommandToExecute)
+		} else {
+			os.Exit(0)
+		}
 	case <-time.After(programTimeout):
-		fmt.Printf("Error: programTimeout of %s reached. Exiting with 1.\n", programTimeout.String())
+		fmt.Printf("Error: programTimeout of %s reached. Exiting with 1\n", programTimeout.String())
 		os.Exit(1)
 	}
 }
 
 func printHelp(errorMessage string) {
-	fmt.Print(errorMessage, "\n\n")
+	if len(errorMessage) > 0 {
+		fmt.Print("\n", errorMessage, "\n")
+	}
+
+	fmt.Print("\nUsage:   go-wait-probe [OPTION]... [CMD]...\n\n")
+	fmt.Print("Examples:\n\n")
+	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready\n")
+	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready echo 'ready to run anything :)'\n")
+	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready -- echo 'ready to run anything :)'\n")
+	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready --probeInterval 2s --programTimeout 30s echo 'ready to run anything :)'\n\n")
+
+	fmt.Print("Flags:\n\n")
 	flag.PrintDefaults()
 }
 
@@ -78,5 +104,19 @@ func runProbe(endpoint string, success chan<- bool) {
 
 	if resp.StatusCode >= 200 && resp.StatusCode <= 299 {
 		success <- true
+	}
+}
+
+func execSuccessCommand(args []string) {
+	cmdName := args[0]
+	resolvedCmdName, err := exec.LookPath(cmdName)
+	if err != nil {
+		fmt.Printf("Error: resolving command name failed")
+		os.Exit(1)
+	}
+
+	if err := syscall.Exec(resolvedCmdName, args, os.Environ()); err != nil {
+		fmt.Printf("Error: exec of %s failed: %s", resolvedCmdName, err.Error())
+		os.Exit(1)
 	}
 }
