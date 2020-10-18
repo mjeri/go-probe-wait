@@ -12,7 +12,7 @@ import (
 )
 
 func main() {
-	var help, runCommandOnTimeout bool
+	var help, succeedAnyway bool
 	var endpoint, probeIntervalString, programTimeoutString string
 
 	flag.BoolVarP(&help, "help", "h", false, "OPTIONAL - Show this online help.")
@@ -20,7 +20,7 @@ func main() {
 	flag.StringVarP(&endpoint, "endpoint", "e", "", "REQUIRED - The endpoint to probe.")
 	flag.StringVarP(&probeIntervalString, "probeInterval", "i", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
 	flag.StringVarP(&programTimeoutString, "programTimeout", "t", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and it exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
-	flag.BoolVarP(&runCommandOnTimeout, "runCommandOnTimeout", "c", false, "OPTIONAL - Run the specified command also on a programTimeout.")
+	flag.BoolVarP(&succeedAnyway, "succeedAnyway", "s", false, "OPTIONAL - Even when the timeout occurs, consider the run as success and exit with 0 or run the specified command.")
 
 	flag.Parse()
 
@@ -60,8 +60,10 @@ func main() {
 			os.Exit(0)
 		}
 	case <-time.After(programTimeout):
-		if len(argsForCommandToExecute) > 0 && runCommandOnTimeout {
+		if len(argsForCommandToExecute) > 0 && succeedAnyway {
 			execSuccessCommand(argsForCommandToExecute)
+		} else if succeedAnyway {
+			os.Exit(0)
 		} else {
 			fmt.Printf("Error: programTimeout of %s reached. Exiting with 1\n", programTimeout.String())
 			os.Exit(1)

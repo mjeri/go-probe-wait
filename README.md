@@ -14,7 +14,6 @@ Note: if you specify to run a program on success the implementation uses `syscal
 ## Usage
 
 ```
-> ./go-wait-probe --help
 Usage: go-wait-probe [OPTION]... [CMD]...
 
 Examples:
@@ -30,7 +29,7 @@ Options:
   -h, --help                    OPTIONAL - Show this online help.
   -i, --probeInterval string    OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s (default "1s")
   -t, --programTimeout string   OPTIONAL - Timeout after the program is considered unsuccessful and it exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s (default "15s")
-  -c, --runCommandOnTimeout     OPTIONAL - Run the specified command also on a programTimeout.
+  -s, --succeedAnyway           OPTIONAL - Even when the timeout occurs, consider the run as success and exit with 0 or run the specified command.
 ```
 
 Precompiled binaries for unix based systems are available in the releases of the GitHub project.
