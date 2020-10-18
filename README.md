@@ -36,11 +36,11 @@ Precompiled binaries for unix based systems are available in the releases of the
 
 If you want to mess it with on your own, clone the project and a simple `go build` does the job.
 
-## Use Cases
+## Use cases
 
 ### docker-compose
 
-Given you have a service which needs to wait with its startup until another service can be used, `go-wait-probe` is perfect for that.
+Given you have a service which needs to wait with its startup until another service becomes ready, `go-wait-probe` is perfect for that.
 Consider the example where `service_two` requires `service_one` to be ready before it should startup.
 Note: as `go-wait-probe` uses the `syscall.Exec` the `yarn start` still runs as PID 1 in the second docker-compose service.
 
