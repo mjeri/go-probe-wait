@@ -15,10 +15,18 @@ func main() {
 	var endpoint, probeIntervalString, programTimeoutString string
 
 	flag.BoolVar(&help, "help", false, "OPTIONAL - Show this online help.")
+
 	flag.StringVar(&endpoint, "endpoint", "", "REQUIRED - The endpoint to probe.")
+	flag.StringVar(&endpoint, "e", "", "(shorthand for -endpoint)")
+
 	flag.StringVar(&probeIntervalString, "probeInterval", "1s", "OPTIONAL - The interval at which the probe is executed. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.StringVar(&probeIntervalString, "i", "1s", "(shorthand for -probeInterval)")
+
 	flag.StringVar(&programTimeoutString, "programTimeout", "15s", "OPTIONAL - Timeout after the program is considered unsuccessful and the tool exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s")
+	flag.StringVar(&programTimeoutString, "t", "15s", "(shorthand for -programTimeout)")
+
 	flag.BoolVar(&runCommandOnTimeout, "runCommandOnTimeout", false, "OPTIONAL - Run the specified command also on a programTimeout.")
+	flag.BoolVar(&runCommandOnTimeout, "c", false, "(shorthand for -runCommandOnTimeout)")
 
 	flag.Parse()
 
