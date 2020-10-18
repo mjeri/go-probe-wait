@@ -81,7 +81,7 @@ func printHelp(errorMessage string) {
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready echo 'ready to run anything :)'\n")
 	fmt.Print("  go-wait-probe --endpoint http://localhost:8080/ready --programTimeout 2s --runCommandOnTimeout echo 'ready to run anything :)'\n")
-	fmt.Print("  go-wait-probe -e http://localhost:8080/ready -i 2s -t 10s -c echo 'ready to run anything :)'\n\n")
+	fmt.Print("  go-wait-probe -e http://localhost:8080/ready -i 2s -t 10s -s echo 'ready to run anything :)'\n\n")
 
 	fmt.Print("Options:\n\n")
 	flag.PrintDefaults()
