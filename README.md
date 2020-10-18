@@ -1,6 +1,7 @@
 # go-probe-wait
 
 ![Go](https://github.com/mjeri/go-probe-wait/workflows/Go/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/mjeri/go-probe-wait)](https://goreportcard.com/report/mjeri/go-probe-wait)
 
 ## Description
 
