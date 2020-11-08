@@ -1,27 +1,27 @@
-# go-probe-wait
+# go-wait-for-it
 
-![Go](https://github.com/mjeri/go-probe-wait/workflows/Go/badge.svg)
-[![Go Report Card](https://goreportcard.com/badge/mjeri/go-probe-wait)](https://goreportcard.com/report/mjeri/go-probe-wait)
+![Go](https://github.com/mjeri/go-wait-for-it/workflows/Go/badge.svg)
+[![Go Report Card](https://goreportcard.com/badge/mjeri/go-wait-for-it)](https://goreportcard.com/report/mjeri/go-wait-for-it)
 
 ## Description
 
-go-probe-wait is a utility which probes an HTTP endpoint until it returns a 2xx response code, or a timeout is reached and optionally starts a program.
+go-wait-for-it is a utility which probes an HTTP endpoint until it returns a 2xx response code, or a timeout is reached and optionally starts a program.
 It's inspired by the famous [wait-for-it.sh](https://github.com/vishnubob/wait-for-it) script, but works on HTTP endpoints.
 The meaning of the options are slightly different, however, hopefully a bit more explanatory.
 
-Note: if you specify to run a program on success the implementation uses `syscall.Exec` to replace the go-probe-wait process with the program you specified. 
+Note: if you specify to run a program on success the implementation uses `syscall.Exec` to replace the go-wait-for-it process with the program you specified. 
 
 ## Usage
 
 ```
-Usage: go-wait-probe [OPTION]... [CMD]...
+Usage: go-wait-for-it [OPTION]... [CMD]...
 
 Examples:
 
-  go-wait-probe --endpoint http://localhost:8080/ready
-  go-wait-probe --endpoint http://localhost:8080/ready echo 'ready to run anything :)'
-  go-wait-probe --endpoint http://localhost:8080/ready --programTimeout 2s --runCommandOnTimeout echo 'ready to run anything :)'
-  go-wait-probe -e http://localhost:8080/ready -i 2s -t 10s -s echo 'ready to run anything :)'
+  go-wait-for-it --endpoint http://localhost:8080/ready
+  go-wait-for-it --endpoint http://localhost:8080/ready echo 'ready to run anything :)'
+  go-wait-for-it --endpoint http://localhost:8080/ready --programTimeout 2s --runCommandOnTimeout echo 'ready to run anything :)'
+  go-wait-for-it -e http://localhost:8080/ready -i 2s -t 10s -s echo 'ready to run anything :)'
 
 Options:
 

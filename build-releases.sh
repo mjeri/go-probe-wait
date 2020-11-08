@@ -13,7 +13,7 @@ fi
 
 for os in "${OS_LIST[@]}"; do
   for arch in "${ARCH_LIST[@]}"; do
-    GOOS="${os}" GOARCH="${arch}" go build -o "releases/go-wait-probe-${os}-${arch}"
+    GOOS="${os}" GOARCH="${arch}" go build -o "releases/go-wait-for-it-${os}-${arch}"
   done
 done
 

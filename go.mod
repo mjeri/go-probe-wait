@@ -1,4 +1,4 @@
-module github.com/mjeri/go-wait-probe
+module github.com/mjeri/go-wait-for-it
 
 go 1.15
 
