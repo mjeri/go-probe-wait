@@ -11,6 +11,13 @@ The meaning of the options are slightly different, however, hopefully a bit more
 
 Note: if you specify to run a program on success the implementation uses `syscall.Exec` to replace the go-wait-for-it process with the program you specified. 
 
+## Installation
+
+Binaries built from the latest main:
+ 
+- [Linux](https://github.com/mjeri/go-wait-for-it/blob/main/bin/amd64/linux/go-wait-for-it)
+- [Darwin](https://github.com/mjeri/go-wait-for-it/blob/main/bin/amd64/darwin/go-wait-for-it)
+
 ## Usage
 
 ```
@@ -31,8 +38,6 @@ Options:
   -t, --programTimeout string   OPTIONAL - Timeout after the program is considered unsuccessful and it exits with 1. The format needs to be parsable by time.ParseDuration. Examples: 300ms, 3s (default "15s")
   -s, --succeedAnyway           OPTIONAL - Even when the timeout occurs, consider the run as success and exit with 0 or run the specified command.
 ```
-
-Precompiled binaries for unix based systems are available in the releases of the GitHub project.
 
 If you want to mess it with on your own, clone the project and a simple `go build` does the job.
 
