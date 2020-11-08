@@ -25,6 +25,9 @@ jobs:
     - name: Build
       run: go build -v .
       
+    - name: Test
+      run: go test -v .
+      
     - name: Lint
       uses: Jerome1337/golint-action@v1.0.2
       with:
@@ -35,5 +38,3 @@ jobs:
       # uses: creekorful/goreportcard-action@1f35ced8cdac2cba28c9a2f2288a16aacfd507f9
       uses: creekorful/goreportcard-action@v1.0
 
-    - name: Test
-      run: go test -v .
