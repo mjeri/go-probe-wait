@@ -5,7 +5,7 @@ set -o pipefail
 set -o nounset
 
 readonly OS_LIST=("darwin" "linux")
-readonly ARCH_LIST=("amd64")
+readonly ARCH_LIST=("amd64" "arm64")
 
 for os in "${OS_LIST[@]}"; do
   for arch in "${ARCH_LIST[@]}"; do
