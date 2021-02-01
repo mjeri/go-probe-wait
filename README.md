@@ -69,7 +69,7 @@ services:
     working_dir: /app
     volumes:
       - '.:/app'
-    command: [ "./go-wait-probe", "--endpoint", "http://service-one:3000/ready", "yarn", "start" ]
+    command: [ "./go-wait-for-it", "--endpoint", "http://service-one:3000/ready", "yarn", "start" ]
 ```
 
 ## Further improvement ideas
